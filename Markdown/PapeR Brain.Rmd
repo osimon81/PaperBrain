@@ -1,0 +1,124 @@
+---
+title: "PapeR Brain"
+author: "Simon Ogundare"
+date: "1/2/2022"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    number_sections: TRUE
+    theme: "darkly"
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Hey there! This is an R Markdown document showcasing one particular use of the `networkd3` package. Here, we use the `simpleNetwork()` package to plot a network diagram, used to model biological neural networks.
+
+## The Neuron
+
+The graphs you'll see here are a digital iteration of a project I started in 2021, aptly called "Paper Brain." I set up basic neuron models on paper which consists of only two actions: either (1) fire an excitatory pulse when triggered, or (2) fire an inhibitory pulse when triggered.
+
+Pulses (action potentials) are additive — so, if a neuron A receives 2 inhibitory pulses and 3 excitatory pulses from presynaptic neurons, neuron A will fire. If the same neuron recieves 3 excitatory pulses and 3 inhibitory pulses, neuron A will not fire.
+
+Evidently, this is an oversimplification for neuronal activity (no clear exploration of how networks change over time, neuromodulation, or all that jazz). However, it can be a pretty nifty tool to learn how to explore the grey areas between what we call "neural networks" in a computational perspective, and a biological one.
+
+## Decision-making
+
+To begin, I started by exploring how we make decisions. In the context of code, we love to rely on certain models to give our programs functionality. In effect, the code we use, when we use `if`, `ifelse`, or `else` statements, gives our programs autonomous "decision-making" capacity (if only in any basic sense).
+
+### Fight OR Flight
+
+The stress response — the triggered release of stress hormones to respond to a potentially threatened environment — can be triggered by both external and internal changes in an environment or cognition, respectively. However, for simplicity, let's consider some environmental factors that might contribute to such a response:
+
+- Sensory: Feeling a sense of pain in response to an environmental change
+- Visual: Sighting a predator or dangerous object in one's immediate vision
+- Auditory: Hearing a sound associated with a particular conditioned fear
+
+These are all factors that could contribute to the release of stress hormones, in any combination. Either a sensory, visual, or auditory stimulus could result in this response (or even all three at the same time).
+
+In code, we could use OR (|), AND (&), or even NOT (!) to assess these sensory inputs. My model does not account for what we'd refer to as "weights" in an artificial neural network sense (yet), which considers how important a sensory input is in determining the overall result following the circuit. However, using the previously-mentioned model for neurons, we can actually model what these functions may look like in a biological sense.
+
+### Motive
+
+When we construct the biological manifestations for decision-making operators may be the structural motifs we may want to search for when we consider the expanse of the human brain.
+
+# Paper Brain
+
+## On paper
+
+Something something something diagram something something something insert paper brain image
+
+## On the screen
+
+### Loading `networkd3`
+
+We'll start by loading `networkD3`, once the package is installed. We'll use the `simpleNetwork()` function to plot our functional motifs for conditional operators:
+
+```{r}
+library(networkD3)
+```
+
+
+### The AND Operator
+
+```{r, echo = TRUE}
+srcAND <- c("Aa (In)", "Ba (In)", "Ca (In)",
+            "(1a)+", "(2a)+", "(3a)+",
+            "(1a)+", "(2a)+", "(3a)+",
+            "(4a)+", "(4a)+", "(6a)-",
+            "(7a)-", "(5a)+")
+targetAND <- c("(1a)+", "(2a)+", "(3a)+",
+               "(4a)+", "(4a)+", "(4a)+",
+               "(5a)+", "(5a)+", "(5a)+",
+               "(6a)-", "(7a)-", "(5a)+",
+               "(5a)+", "Da (Out)")
+```
+
+
+
+```{r}
+netAND <- function() {
+  
+  andNetwork <- data.frame(srcAND, targetAND)
+  
+  simpleNetwork(andNetwork, fontSize = 14,
+                linkDistance = 100, zoom = TRUE)
+}
+
+netAND()
+```
+
+### The LOOP Operator
+
+```{r}
+srcLOOP <- c("Al (In)",
+             "(1l)+", "(2l)+", "(3l)+", "(4l)+",
+             "(3l)+")
+
+targetLOOP <- c("(1l)+",
+                "(2l)+", "(3l)+", "(4l)+", "(1l)+",
+                "Bl (Out)")
+```
+
+
+
+```{r}
+netLoop <- function() {
+  
+  loopNetwork <- data.frame(srcLOOP, targetLOOP)
+  
+  simpleNetwork(loopNetwork, fontSize = 14,
+                linkDistance = 100, zoom = TRUE)
+}
+
+netLoop()
+```
+
+
