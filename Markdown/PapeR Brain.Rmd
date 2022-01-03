@@ -289,8 +289,15 @@ PapeRBrain could interpret this code as a combination of an And MicroNetwork (re
 (Looking carefully at this code, the Loop MicroNetwork may be constructed as a Loop unit with some input neuron I acting as an inhibitory element on the positive feedback loop)
 
 Constructing these complex assemblies can be modular, and MicroNetwork units such as "And," "Loop," "Not," and "Or" (among others) can be modularly assembled using the syntax of computer programming (which may be a useful construction interface for programmers).
+<<<<<<< HEAD
 
 
 Another goal of the PBMN project is to inspect the basic modular circuits which form the nervous systems of simpler organisms, and design a directory for MicroNetworks where the relevant units for certain species can be easily retrieved. As a sub-goal, I would like to standardize the nomenclature for neurons in MicroNetworks, to minimize confusion.
 
 Finally, I hope to make the visualizations more functional by designing an interface where the circuit can be interacted with: various neurons can be triggered in order to assess the circuit's redundancies, areas for improvement, or simply effectiveness.
+=======
+
+2. Another goal of the PBMN project is to inspect the basic modular circuits which form the nervous systems of simpler organisms, and design a directory for MicroNetworks where the relevant units for certain species can be easily retrieved. As a sub-goal, I would like to standardize the nomenclature for neurons in MicroNetworks, to minimize confusion.
+
+3. Finally, I hope to make the visualizations more functional by designing an interface where the circuit can be interacted with: various neurons can be triggered in order to assess the circuit's redundancies, areas for improvement, or simply effectiveness.
+>>>>>>> c4ac1bf85cd62263d2f624a32086110d48932277
