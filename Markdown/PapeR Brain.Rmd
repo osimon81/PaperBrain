@@ -19,11 +19,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-Hey there! This is an R Markdown document showcasing one particular use of the `networkd3` package. Here, we use the `simpleNetwork()` package to plot a network diagram, used to model biological neural networks.
+Hey there! This is an R Markdown document showcasing one particular use of the `networkd3` package. Here, we use the `simpleNetwork()` package to plot Micro-Networks, used to model biological neural networks in terms of computational functions.
 
 ## The neuron
 
-The graphs you'll see here are a digital iteration of a project I started in 2021, aptly called "Paper Brain." I set up basic neuron models on paper which consists of only two actions: either (1) fire an excitatory pulse when triggered, or (2) fire an inhibitory pulse when triggered.
+The graphs you'll see here are a digital iteration of a project I started in 2021, aptly called "Paper Brain." I set up basic neuron models on paper which consists of only two actions: 
+
+- A neuron will fire an excitatory pulse when triggered
+- A neuron will fire an inhibitory pulse when triggered
 
 Pulses (action potentials) are additive — so, if a neuron A receives 2 inhibitory pulses and 3 excitatory pulses from presynaptic neurons, neuron A will fire. If the same neuron receives 3 excitatory pulses and 3 inhibitory pulses, neuron A will not fire.
 
@@ -47,9 +50,9 @@ In code, we could use OR (| operator), AND (& operator), or even NOT (! operator
 
 ### Motive
 
-When we construct the biological manifestations for decision-making operators may be the structural motifs we may want to search for when we consider the expanse of the neural circuits in the human brain.
+When we put together the structures for decision-making operators, these may be the structural motifs we may want to search for when we consider the expanse of the neural circuits in the human brain.
 
-While this depiction may not be completely generalizable to a brain in its complexity, analyzing the simplest model may present us with an easier model we can use to dissect the true circuits.
+While this depiction may not currently be completely generalizable to a brain in its complexity, analyzing the simplest model may present us with an easier model we can use to dissect the true circuits.
 
 # Paper Brain
 
@@ -147,7 +150,11 @@ micronetLoop() # generate our network!
 ```
 
 
-### A Variation on the loop
+### A Loop Variation
+
+The code below constructs a data frame with two extra connections added to both srcLOOPv1 and targetLOOPv1. These extra connections can be seen at the bottom 2 rows of the outputted data frame.
+
+Try to use the nomenclature system to figure out how this modifies the Loop MicroNetwork
 
 ```{r}
 srcLOOPv1 <- c("Al (In)",
@@ -158,7 +165,9 @@ targetLOOPv1 <- c("(1l)+",
                 "(2l)+", "(3l)+", "(4l)+", "(1l)+",
                 "Bl (Out)", "(5l)-", "(4l)+")
 
-loopNetworkv1 <- data.frame(srcLOOPv1, targetLOOPv1) # construct data frame with source and target vectors
+# construct data frame with source and target vectors
+
+loopNetworkv1 <- data.frame(srcLOOPv1, targetLOOPv1)
 
 loopNetworkv1 # display our data frame!
 ```
@@ -184,6 +193,103 @@ This MicroNetwork could be seen in a setup with sensory neuron which fires only 
 
 Clearly, many variations can be made using this underlying structure, and exploring factors such as signal latency (which was utilized to generate loop v1) gives this model a degree of flexibility and adaptability for predicting and modeling various neural systems in the brain using basic structures.
 
-## Limitations
+## Combining MicroNetworks
 
+### Isolated MicroNetworks
 
+As mentioned, every neuron which is part of a distinct MicroNetwork has a unique identifier. As a result, multiple networks can be stitched together and viewed as a singular, poly-network assembly. In the following code, we put the "And" and "Loop" networks in the same environment (not neurally connected, however). This is in order to allow you to manipulate both MicroNetworks and visualize the multiplicity of ways that they can be connected to one another.
+
+```{r}
+micronetAndLoop <- function() {
+  srcBOTH <- c(srcAND, srcLOOP)
+  targetBOTH <- c(targetAND, targetLOOP)
+  
+  dualComponentNetwork <- data.frame(srcBOTH, targetBOTH)
+  
+  simpleNetwork(dualComponentNetwork, fontSize = 14, nodeColour = rainbow(6),
+                linkDistance = 100, zoom = TRUE)
+}
+
+micronetAndLoop()
+```
+
+### Combined MicroNetworks
+
+Manipulating the two networks, they can easily be seen as discrete entities — however, we can also combine these two networks to form a larger, more complex network.
+
+For instance, if we wanted to develop a network model where if A, B, and C were all true, a positive feedback loop would be the output, we can develop the micronetwork here:
+
+```{r}
+
+# The only change made here is adding "Da (Out)" to the end of our src list.
+
+srcAND <- c("Aa (In)", "Ba (In)", "Ca (In)",
+            "(1a)+", "(2a)+", "(3a)+",
+            "(1a)+", "(2a)+", "(3a)+",
+            "(4a)+", "(4a)+", "(6a)-",
+            "(7a)-", "(5a)+", "Da (Out)")
+
+# The only change made is adding "Al (In)" to the end of our target list.
+
+targetAND <- c("(1a)+", "(2a)+", "(3a)+",
+               "(4a)+", "(4a)+", "(4a)+",
+               "(5a)+", "(5a)+", "(5a)+",
+               "(6a)-", "(7a)-", "(5a)+",
+               "(5a)+", "Da (Out)", "Al (In)")
+
+# The following vectors of neurons were not modified at all.
+
+srcLOOP <- c("Al (In)",
+             "(1l)+", "(2l)+", "(3l)+", "(4l)+",
+             "(3l)+")
+
+targetLOOP <- c("(1l)+",
+                "(2l)+", "(3l)+", "(4l)+", "(1l)+",
+                "Bl (Out)")
+
+micronetAndLoop()
+```
+
+In a case like this, it's as easy as linking the output neuron Da (Out) to the input neuron Al (In), and assembling the rest of the network using the `micronetAndLoop()` function we wrote earlier.
+
+While this neural network appears more complicated, the function reflects exactly what structure we designed for it. In other words, if input neurons Aa (In), Ba (In), and Ca (In) all experience a stimulus, they will result in output neuron Bl (Out) releasing regular pulses due to the positive feedback loop.
+
+We can link up MicroNetworks in many different configurations to model any variety of neuronal pathway, provided that we have a basic understanding of the structural motifs which represent these computational operators in our target organisms.
+
+# Limitations
+
+## Modular Simplicity
+
+(may not account for brain complexity)
+
+## Coloring Limitations
+
+(same color can be confusing, label excitatory / inhibitory / input / output neurons?)
+
+## Modular Generalizability
+
+(not compared to microscopy yet)
+
+## Transmission Directionality
+
+(arrow-paths to show neural transmission)
+
+# Future Directions
+
+One of the primary aims of the PaperBrain / MicroNetwork project is to allow for a simple interface where researchers in Systems or Computational Neuroscience and various other fields can construct these models using language one might ordinarily see while programming. For instance, a programmer could write:
+
+`if (A & B & C) {`
+  `while (I == FALSE) {`
+    `triggerOutput()`
+  `}`
+`}`
+
+PapeRBrain could interpret this code as a combination of an And MicroNetwork (recognizing the `&` operator) and a Loop MicroNetwork (recognizing the `while` loop), and construct the neurobiological representation of this code using `networkd3`.
+
+(Looking carefully at this code, the Loop MicroNetwork may be constructed as a Loop unit with some input neuron I acting as an inhibitory element on the positive feedback loop)
+
+Constructing these complex assemblies can be modular, and MicroNetwork units such as "And," "Loop," "Not," and "Or" (among others) can be modularly assembled using the syntax of computer programming (which may be a useful construction interface for programmers).
+
+2. Another goal of the PBMN project is to inspect the basic modular circuits which form the nervous systems of simpler organisms, and design a directory for MicroNetworks where the relevant units for certain species can be easily retrieved. As a sub-goal, I would like to standardize the nomenclature for neurons in MicroNetworks, to minimize confusion.
+
+3. Finally, I hope to make the visualizations more functional by designing an interface where the circuit can be interacted with: various neurons can be triggered in order to assess the circuit's redundancies, areas for improvement, or simply effectiveness.
