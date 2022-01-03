@@ -254,9 +254,9 @@ div.tocify {
 <h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>Hey there! This is an R Markdown document showcasing one particular use of the <code>networkd3</code> package. Here, we use the <code>simpleNetwork()</code> package to plot a network diagram, used to model biological neural networks.</p>
 <div id="the-neuron" class="section level2" number="1.1">
-<h2 number="1.1"><span class="header-section-number">1.1</span> The Neuron</h2>
+<h2 number="1.1"><span class="header-section-number">1.1</span> The neuron</h2>
 <p>The graphs you’ll see here are a digital iteration of a project I started in 2021, aptly called “Paper Brain.” I set up basic neuron models on paper which consists of only two actions: either (1) fire an excitatory pulse when triggered, or (2) fire an inhibitory pulse when triggered.</p>
-<p>Pulses (action potentials) are additive — so, if a neuron A receives 2 inhibitory pulses and 3 excitatory pulses from presynaptic neurons, neuron A will fire. If the same neuron recieves 3 excitatory pulses and 3 inhibitory pulses, neuron A will not fire.</p>
+<p>Pulses (action potentials) are additive — so, if a neuron A receives 2 inhibitory pulses and 3 excitatory pulses from presynaptic neurons, neuron A will fire. If the same neuron receives 3 excitatory pulses and 3 inhibitory pulses, neuron A will not fire.</p>
 <p>Evidently, this is an oversimplification for neuronal activity (no clear exploration of how networks change over time, neuromodulation, or all that jazz). However, it can be a pretty nifty tool to learn how to explore the grey areas between what we call “neural networks” in a computational perspective, and a biological one.</p>
 </div>
 <div id="decision-making" class="section level2" number="1.2">
@@ -271,11 +271,12 @@ div.tocify {
 <li>Auditory: Hearing a sound associated with a particular conditioned fear</li>
 </ul>
 <p>These are all factors that could contribute to the release of stress hormones, in any combination. Either a sensory, visual, or auditory stimulus could result in this response (or even all three at the same time).</p>
-<p>In code, we could use OR (|), AND (&amp;), or even NOT (!) to assess these sensory inputs. My model does not account for what we’d refer to as “weights” in an artificial neural network sense (yet), which considers how important a sensory input is in determining the overall result following the circuit. However, using the previously-mentioned model for neurons, we can actually model what these functions may look like in a biological sense.</p>
+<p>In code, we could use OR (| operator), AND (&amp; operator), or even NOT (! operator) to assess these sensory inputs. My model does not account for what we’d refer to as “weights” in an artificial neural network sense (yet), which considers how important a sensory input is in determining the overall result following the circuit. However, using the previously-mentioned model for neurons, we can actually model what these functions may look like in a biological sense.</p>
 </div>
 <div id="motive" class="section level3" number="1.2.2">
 <h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Motive</h3>
-<p>When we construct the biological manifestations for decision-making operators may be the structural motifs we may want to search for when we consider the expanse of the human brain.</p>
+<p>When we construct the biological manifestations for decision-making operators may be the structural motifs we may want to search for when we consider the expanse of the neural circuits in the human brain.</p>
+<p>While this depiction may not be completely generalizable to a brain in its complexity, analyzing the simplest model may present us with an easier model we can use to dissect the true circuits.</p>
 </div>
 </div>
 </div>
@@ -289,11 +290,21 @@ div.tocify {
 <h2 number="2.2"><span class="header-section-number">2.2</span> On the screen</h2>
 <div id="loading-networkd3" class="section level3" number="2.2.1">
 <h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Loading <code>networkd3</code></h3>
-<p>We’ll start by loading <code>networkD3</code>, once the package is installed. We’ll use the <code>simpleNetwork()</code> function to plot our functional motifs for conditional operators:</p>
+<p>We’ll start by loading <code>networkD3</code>, once this package is installed. We’ll use the <code>simpleNetwork()</code> function to plot our functional motifs for conditional operators:</p>
 <pre class="r"><code>library(networkD3)</code></pre>
 </div>
-<div id="the-and-operator" class="section level3" number="2.2.2">
-<h3 number="2.2.2"><span class="header-section-number">2.2.2</span> The AND Operator</h3>
+<div id="the-and-micronetwork" class="section level3" number="2.2.2">
+<h3 number="2.2.2"><span class="header-section-number">2.2.2</span> The And MicroNetwork</h3>
+<p>The structure of the <code>simpleNetwork()</code> function is designed to generate a <a href="https://en.wikipedia.org/wiki/Force-directed_graph_drawing">force-directed network</a>. The syntax is based on a vector of sources (the nodes or neurons which project out to other neurons), and targets (the nodes or neurons which the sources project to). In the <code>simpleNetwork()</code> function, the indices for a certain source and target are paired, such that in the generated diagram, a connection exists between the source neuron and the target neuron.</p>
+<p>In the code below, two character vectors are added to the global environment in order to generate a force-directed diagram. The nomenclature for each neuron in the vectors is as follows:</p>
+<ul>
+<li>Neurons with a + or - at the end of their name will either generate an excitatory or inhibitory impulse once they are triggered. For instance, (1a)+ is excitatory, and (6a)- is inhibitory.</li>
+<li>Neurons with a capital letter (A, B, or C) outside of parentheses are either input neurons or output neurons. Neuron Aa (In) is an input neuron, and neuron Da (Out) is an output neuron. Assume all input and output neurons are excitatory.</li>
+<li>The lowercase letter in front of the capital letter (for In/Out neurons) or numbers (for +/- interneurons) are unique letter identifiers corresponding to which motif these neurons are a part of. In this case, all of these neurons are labeled with an “a,” which indicate that these are all part of the AND MicroNetwork.</li>
+</ul>
+<p>In the context of this syntax, we can understand that input neuron Aa (In), located in the srcAND vector, is connected to excitatory interneuron (1a)+, located in the targetAND vector.</p>
+<p>The nomenclature system may appear overly complicated at a glance, but this system ensures that every neuron in a MicroNetwork (or combination of MicroNetworks) can be isolated and identified. I’m also open to suggestions as to how the nomenclature for these neuron models can be improved, so feel free to reach out!</p>
+<p>While visualization of this network solely based on these two vectors can be relatively complex, we can use this information to plot our visualization using <code>simpleNetwork()</code>.</p>
 <pre class="r"><code>srcAND &lt;- c(&quot;Aa (In)&quot;, &quot;Ba (In)&quot;, &quot;Ca (In)&quot;,
             &quot;(1a)+&quot;, &quot;(2a)+&quot;, &quot;(3a)+&quot;,
             &quot;(1a)+&quot;, &quot;(2a)+&quot;, &quot;(3a)+&quot;,
@@ -303,40 +314,100 @@ targetAND &lt;- c(&quot;(1a)+&quot;, &quot;(2a)+&quot;, &quot;(3a)+&quot;,
                &quot;(4a)+&quot;, &quot;(4a)+&quot;, &quot;(4a)+&quot;,
                &quot;(5a)+&quot;, &quot;(5a)+&quot;, &quot;(5a)+&quot;,
                &quot;(6a)-&quot;, &quot;(7a)-&quot;, &quot;(5a)+&quot;,
-               &quot;(5a)+&quot;, &quot;Da (Out)&quot;)</code></pre>
-<pre class="r"><code>netAND &lt;- function() {
-  
-  andNetwork &lt;- data.frame(srcAND, targetAND)
-  
+               &quot;(5a)+&quot;, &quot;Da (Out)&quot;)
+
+andNetwork &lt;- data.frame(srcAND, targetAND)
+
+head(andNetwork)</code></pre>
+<pre><code>##    srcAND targetAND
+## 1 Aa (In)     (1a)+
+## 2 Ba (In)     (2a)+
+## 3 Ca (In)     (3a)+
+## 4   (1a)+     (4a)+
+## 5   (2a)+     (4a)+
+## 6   (3a)+     (4a)+</code></pre>
+<p>Using <code>head(andNetwork)</code> shows the first 6 rows of the data frame we constructed, where we pair the source and target vectors. This is a better way to inspect connectivity, and this is the data we will feed into the <code>simpleNetwork()</code> function.</p>
+<p>The function below plots our And MicroNetwork. The graph is interactive, and nodes can be dragged around to better visualize the network. You can mouse-hover over neurons to reveal the neurons they’re connected to. I recommend dragging the input neurons to one side and outputs to the other side, in order to see the connections between neurons better.</p>
+<pre class="r"><code>micronetAND &lt;- function() {
   simpleNetwork(andNetwork, fontSize = 14,
-                linkDistance = 100, zoom = TRUE)
+                linkDistance = 100, zoom = FALSE)
 }
 
-netAND()</code></pre>
-<div id="htmlwidget-4c0d9d7349210602bcd1" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4c0d9d7349210602bcd1">{"x":{"links":{"source":[7,8,9,0,1,2,0,1,2,3,3,5,6,4],"target":[0,1,2,3,3,3,4,4,4,5,6,4,4,10],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(2a)+","(3a)+","(4a)+","(5a)+","(6a)-","(7a)-","Aa (In)","Ba (In)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":true,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+
+micronetAND()</code></pre>
+<div id="htmlwidget-5d721f4aa8b51bbc33c0" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5d721f4aa8b51bbc33c0">{"x":{"links":{"source":[7,8,9,0,1,2,0,1,2,3,3,5,6,4],"target":[0,1,2,3,3,3,4,4,4,5,6,4,4,10],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(2a)+","(3a)+","(4a)+","(5a)+","(6a)-","(7a)-","Aa (In)","Ba (In)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="the-loop-operator" class="section level3" number="2.2.3">
-<h3 number="2.2.3"><span class="header-section-number">2.2.3</span> The LOOP Operator</h3>
+<div id="the-loop-micronetwork" class="section level3" number="2.2.3">
+<h3 number="2.2.3"><span class="header-section-number">2.2.3</span> The Loop MicroNetwork</h3>
+<p>We can achieve the same goals with the Loop MicroNetwork. Here, we initialize our (much smaller) network of neurons involved in the loop. Assess how each neuron connects with one another using these two vectors, or using the paired data frame:</p>
 <pre class="r"><code>srcLOOP &lt;- c(&quot;Al (In)&quot;,
              &quot;(1l)+&quot;, &quot;(2l)+&quot;, &quot;(3l)+&quot;, &quot;(4l)+&quot;,
              &quot;(3l)+&quot;)
 
 targetLOOP &lt;- c(&quot;(1l)+&quot;,
                 &quot;(2l)+&quot;, &quot;(3l)+&quot;, &quot;(4l)+&quot;, &quot;(1l)+&quot;,
-                &quot;Bl (Out)&quot;)</code></pre>
-<pre class="r"><code>netLoop &lt;- function() {
-  
-  loopNetwork &lt;- data.frame(srcLOOP, targetLOOP)
-  
-  simpleNetwork(loopNetwork, fontSize = 14,
-                linkDistance = 100, zoom = TRUE)
+                &quot;Bl (Out)&quot;)
+
+loopNetwork &lt;- data.frame(srcLOOP, targetLOOP)
+
+head(loopNetwork)</code></pre>
+<pre><code>##   srcLOOP targetLOOP
+## 1 Al (In)      (1l)+
+## 2   (1l)+      (2l)+
+## 3   (2l)+      (3l)+
+## 4   (3l)+      (4l)+
+## 5   (4l)+      (1l)+
+## 6   (3l)+   Bl (Out)</code></pre>
+<p>Here, we plot the loop MicroNetwork. Inspecting the network, the network appears to be a positive feedback loop, where an incoming excitatory sensory neuron triggers this loop. Every time neurons fire from 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 1, an output neuron Bl (Out) is fired.</p>
+<pre class="r"><code>micronetLoop &lt;- function() {
+  simpleNetwork(loopNetwork, fontSize = 14, nodeColour = &quot;green&quot;,
+                linkDistance = 100, zoom = FALSE)
 }
 
-netLoop()</code></pre>
-<div id="htmlwidget-bc3e0aba92df6c530790" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bc3e0aba92df6c530790">{"x":{"links":{"source":[4,0,1,2,3,2],"target":[0,1,2,3,0,5],"value":[1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":true,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+micronetLoop() # generate our network!</code></pre>
+<div id="htmlwidget-bf7d25e45c41cf9ad7bd" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bf7d25e45c41cf9ad7bd">{"x":{"links":{"source":[4,0,1,2,3,2],"target":[0,1,2,3,0,5],"value":[1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['green'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 </div>
+<div id="a-variation-on-the-loop" class="section level3" number="2.2.4">
+<h3 number="2.2.4"><span class="header-section-number">2.2.4</span> A Variation on the loop</h3>
+<pre class="r"><code>srcLOOPv1 &lt;- c(&quot;Al (In)&quot;,
+             &quot;(1l)+&quot;, &quot;(2l)+&quot;, &quot;(3l)+&quot;, &quot;(4l)+&quot;,
+             &quot;(3l)+&quot;, &quot;(2l)+&quot;, &quot;(5l)-&quot;)
+
+targetLOOPv1 &lt;- c(&quot;(1l)+&quot;,
+                &quot;(2l)+&quot;, &quot;(3l)+&quot;, &quot;(4l)+&quot;, &quot;(1l)+&quot;,
+                &quot;Bl (Out)&quot;, &quot;(5l)-&quot;, &quot;(4l)+&quot;)
+
+loopNetworkv1 &lt;- data.frame(srcLOOPv1, targetLOOPv1) # construct data frame with source and target vectors
+
+loopNetworkv1 # display our data frame!</code></pre>
+<pre><code>##   srcLOOPv1 targetLOOPv1
+## 1   Al (In)        (1l)+
+## 2     (1l)+        (2l)+
+## 3     (2l)+        (3l)+
+## 4     (3l)+        (4l)+
+## 5     (4l)+        (1l)+
+## 6     (3l)+     Bl (Out)
+## 7     (2l)+        (5l)-
+## 8     (5l)-        (4l)+</code></pre>
+<p>Notice the two extra rows of connections added in this variation of the Loop MicroNetwork, and how this changes the structure (and therefore functionality) of the overall Loop:</p>
+<pre class="r"><code>micronetLoopv1 &lt;- function() {
+  simpleNetwork(loopNetworkv1, fontSize = 14, nodeColour = &quot;violet&quot;,
+                linkDistance = 100, zoom = FALSE)
+}
+
+micronetLoopv1() # generate our network!</code></pre>
+<div id="htmlwidget-3d708161fd5ae3ad2210" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d708161fd5ae3ad2210">{"x":{"links":{"source":[5,0,1,2,3,2,1,4],"target":[0,1,2,3,0,6,4,3],"value":[1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","(5l)-","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['violet'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<p>Inhibitory interneuron 5 was formed to bridge excitatory neurons 2 and 4 in the loop, which allows the loop to run for exactly one time before terminating the loop. This variation takes synchronization of latency into account (i.e. the excitatory signal from 2 -&gt; 3 -&gt; 4 will reach interneuron 4 at the same time 2 -&gt; 5 -&gt; 4 reaches this interneuron because the same number of neurons are fired and the same number of synapses are crossed).</p>
+<p>This MicroNetwork could be seen in a setup with sensory neuron which fires only once, and requires the signal to be terminated once this signal is directed to the output of the loop. Without the inhibitory element of interneuron 5, the loop would operate indefinitely. Signifying this structure in code, it could be represented as:</p>
+<p><code>for (i in 1:1) {</code> <code>triggerOutput()</code> <code>}</code></p>
+<p>Clearly, many variations can be made using this underlying structure, and exploring factors such as signal latency (which was utilized to generate loop v1) gives this model a degree of flexibility and adaptability for predicting and modeling various neural systems in the brain using basic structures.</p>
+</div>
+</div>
+<div id="limitations" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Limitations</h2>
 </div>
 </div>
 

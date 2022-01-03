@@ -11,6 +11,10 @@ targetAND <- c("(1a)+", "(2a)+", "(3a)+",
                "(6a)-", "(7a)-", "(5a)+",
                "(5a)+", "Da (Out)")
 
+andNetwork <- data.frame(srcAND, targetAND)
+
+
+
 srcLOOP <- c("Al (In)",
              "(1l)+", "(2l)+", "(3l)+", "(4l)+",
              "(3l)+")
@@ -19,27 +23,36 @@ targetLOOP <- c("(1l)+",
                 "(2l)+", "(3l)+", "(4l)+", "(1l)+",
                 "Bl (Out)")
 
+loopNetwork <- data.frame(srcLOOP, targetLOOP)
+
+
+
+srcLOOPv1 <- c("Al (In)",
+               "(1l)+", "(2l)+", "(3l)+", "(4l)+",
+               "(3l)+", "(2l)+", "(5l)-")
+
+targetLOOPv1 <- c("(1l)+",
+                  "(2l)+", "(3l)+", "(4l)+", "(1l)+",
+                  "Bl (Out)", "(5l)-", "(4l)+")
+
+loopNetworkv1 <- data.frame(srcLOOPv1, targetLOOPv1)
+
+
 # Plot "AND" Network
 
-netAND <- function() {
-  
-  andNetwork <- data.frame(srcAND, targetAND)
-  
+micronetAND <- function() {
   simpleNetwork(andNetwork, fontSize = 14,
                 linkDistance = 100, zoom = TRUE)
 }
 
 # Plot "LOOP" Network
 
-netLoop <- function() {
-  
-  loopNetwork <- data.frame(srcLOOP, targetLOOP)
-  
+micronetLoop <- function() {
   simpleNetwork(loopNetwork, fontSize = 14,
                 linkDistance = 100, zoom = TRUE)
 }
 
-netAndLoop <- function() {
+micronetAndLoop <- function() {
   srcBOTH <- c(srcAND, srcLOOP)
   targetBOTH <- c(targetAND, targetLOOP)
   
@@ -48,5 +61,14 @@ netAndLoop <- function() {
   simpleNetwork(dualComponentNetwork, fontSize = 14,
                 linkDistance = 100, zoom = TRUE)
 }
+
+micronetLoopv1 <- function() {
+  simpleNetwork(loopNetworkv1, fontSize = 14,
+                linkDistance = 100, zoom = TRUE)
+}
+
+micronetLoopv1()
+
+
 
 
