@@ -254,18 +254,19 @@ div.tocify {
 <h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>Hey there! This is an R Markdown document showcasing one particular use of the <code>networkd3</code> package. Here, we use the <code>simpleNetwork()</code> package to plot Micro-Networks, used to model biological neural networks in terms of computational functions.</p>
 <div id="the-neuron" class="section level2" number="1.1">
-<h2 number="1.1"><span class="header-section-number">1.1</span> The neuron</h2>
-<p>The graphs you’ll see here are a digital iteration of a project I started in 2021, aptly called “Paper Brain.” I set up basic neuron models on paper which consists of only two actions:</p>
+<h2 number="1.1"><span class="header-section-number">1.1</span> The Neuron</h2>
+<p>The graphs you’ll see here are a digital iteration of a project I started in mid-2021, called “Paper Brain.” I set up basic neuron models on paper which consist of only two actions:</p>
 <ul>
 <li>A neuron will fire an excitatory pulse when triggered</li>
 <li>A neuron will fire an inhibitory pulse when triggered</li>
 </ul>
 <p>Pulses (action potentials) are additive — so, if a neuron A receives 2 inhibitory pulses and 3 excitatory pulses from presynaptic neurons, neuron A will fire. If the same neuron receives 3 excitatory pulses and 3 inhibitory pulses, neuron A will not fire.</p>
-<p>Evidently, this is an oversimplification for neuronal activity (no clear exploration of how networks change over time, neuromodulation, or all that jazz). However, it can be a pretty nifty tool to learn how to explore the grey areas between what we call “neural networks” in a computational perspective, and a biological one.</p>
+<p>Furthermore, with this model, all neuronal connections are assumed to be unidirectional — between a presynaptic neuron and a postsynaptic neuron, a pulse will only ever propagate from presynaptic to postsynaptic neuron.</p>
+<p>Evidently, this is an oversimplification for neuronal activity (no clear exploration of how networks change over time, variations in neurotransmitters, or neuromodulation). However, it can be a pretty nifty tool to learn how to explore the grey areas between what we call “neural networks” in a computational perspective, and a biological one.</p>
 </div>
 <div id="decision-making" class="section level2" number="1.2">
 <h2 number="1.2"><span class="header-section-number">1.2</span> Decision-making</h2>
-<p>To begin, I started by exploring how we make decisions. In the context of code, we love to rely on certain models to give our programs functionality. In effect, the code we use, when we use <code>if</code>, <code>ifelse</code>, or <code>else</code> statements, gives our programs autonomous “decision-making” capacity (if only in any basic sense).</p>
+<p>To begin, I started by exploring how we make decisions. In the context of code, we can rely on certain structures to give our programs functionality. In effect, the code we use, when we use <code>if</code>, <code>ifelse</code>, or <code>else</code> statements, gives our programs autonomous “decision-making” capacity (if only in any basic sense).</p>
 <div id="fight-or-flight" class="section level3" number="1.2.1">
 <h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Fight OR Flight</h3>
 <p>The stress response — the triggered release of stress hormones to respond to a potentially threatened environment — can be triggered by both external and internal changes in an environment or cognition, respectively. However, for simplicity, let’s consider some environmental factors that might contribute to such a response:</p>
@@ -288,14 +289,15 @@ div.tocify {
 <h1 number="2"><span class="header-section-number">2</span> Paper Brain</h1>
 <div id="on-paper" class="section level2" number="2.1">
 <h2 number="2.1"><span class="header-section-number">2.1</span> On paper</h2>
-<p>Something something something diagram something something something insert paper brain image</p>
+<p>The paper representations of the structures that will be generated below can be found in my <a href="https://github.com/osimon81/PaperBrain">PaperBrain repository on GitHub</a>, under the <em>Images</em> folder. Feel free to excuse the scribbles :)</p>
 </div>
 <div id="on-the-screen" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> On the screen</h2>
 <div id="loading-networkd3" class="section level3" number="2.2.1">
 <h3 number="2.2.1"><span class="header-section-number">2.2.1</span> Loading <code>networkd3</code></h3>
 <p>We’ll start by loading <code>networkD3</code>, once this package is installed. We’ll use the <code>simpleNetwork()</code> function to plot our functional motifs for conditional operators:</p>
-<pre class="r"><code>library(networkD3)</code></pre>
+<pre class="r"><code>library(networkD3)
+library(readr)</code></pre>
 </div>
 <div id="the-and-micronetwork" class="section level3" number="2.2.2">
 <h3 number="2.2.2"><span class="header-section-number">2.2.2</span> The And MicroNetwork</h3>
@@ -339,8 +341,8 @@ head(andNetwork)</code></pre>
 
 
 micronetAND()</code></pre>
-<div id="htmlwidget-39358deec4189bb27d8b" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-39358deec4189bb27d8b">{"x":{"links":{"source":[7,8,9,0,1,2,0,1,2,3,3,5,6,4],"target":[0,1,2,3,3,3,4,4,4,5,6,4,4,10],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(2a)+","(3a)+","(4a)+","(5a)+","(6a)-","(7a)-","Aa (In)","Ba (In)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-11c9fdab21ef15e316c8" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-11c9fdab21ef15e316c8">{"x":{"links":{"source":[7,8,9,0,1,2,0,1,2,3,3,5,6,4],"target":[0,1,2,3,3,3,4,4,4,5,6,4,4,10],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(2a)+","(3a)+","(4a)+","(5a)+","(6a)-","(7a)-","Aa (In)","Ba (In)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="the-loop-micronetwork" class="section level3" number="2.2.3">
 <h3 number="2.2.3"><span class="header-section-number">2.2.3</span> The Loop MicroNetwork</h3>
@@ -370,8 +372,8 @@ head(loopNetwork)</code></pre>
 }
 
 micronetLoop() # generate our network!</code></pre>
-<div id="htmlwidget-fce919052494e568d32d" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fce919052494e568d32d">{"x":{"links":{"source":[4,0,1,2,3,2],"target":[0,1,2,3,0,5],"value":[1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['green'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6e56aff20444fb1ce036" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6e56aff20444fb1ce036">{"x":{"links":{"source":[4,0,1,2,3,2],"target":[0,1,2,3,0,5],"value":[1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['green'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="a-loop-variation" class="section level3" number="2.2.4">
 <h3 number="2.2.4"><span class="header-section-number">2.2.4</span> A Loop Variation</h3>
@@ -406,8 +408,8 @@ loopNetworkv1 # display our data frame!</code></pre>
 }
 
 micronetLoopv1() # generate our network!</code></pre>
-<div id="htmlwidget-723109edf7d7c1773a94" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-723109edf7d7c1773a94">{"x":{"links":{"source":[5,0,1,2,3,2,1,4],"target":[0,1,2,3,0,6,4,3],"value":[1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","(5l)-","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['violet'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1e18d23ae3cd113a1dfe" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1e18d23ae3cd113a1dfe">{"x":{"links":{"source":[5,0,1,2,3,2,1,4],"target":[0,1,2,3,0,6,4,3],"value":[1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1l)+","(2l)+","(3l)+","(4l)+","(5l)-","Al (In)","Bl (Out)"],"group":[1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['violet'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 <p>Inhibitory interneuron 5 was formed to bridge excitatory neurons 2 and 4 in the loop, which allows the loop to run for exactly one time before terminating the loop. This variation takes synchronization of latency into account (i.e. the excitatory signal from 2 -&gt; 3 -&gt; 4 will reach interneuron 4 at the same time 2 -&gt; 5 -&gt; 4 reaches this interneuron because the same number of neurons are fired and the same number of synapses are crossed).</p>
 <p>This MicroNetwork could be seen in a setup with sensory neuron which fires only once, and requires the signal to be terminated once this signal is directed to the output of the loop. Without the inhibitory element of interneuron 5, the loop would operate indefinitely. Signifying this structure in code, it could be represented as:</p>
 <p><code>for (i in 1:1) {</code> <code>triggerOutput()</code> <code>}</code></p>
@@ -430,8 +432,8 @@ micronetLoopv1() # generate our network!</code></pre>
 }
 
 micronetAndLoop()</code></pre>
-<div id="htmlwidget-b3b87e1240dd5ee86c8d" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b3b87e1240dd5ee86c8d">{"x":{"links":{"source":[11,13,15,0,2,4,0,2,4,6,6,9,10,8,12,1,3,5,7,5],"target":[0,2,4,6,6,6,8,8,8,9,10,8,8,16,1,3,5,7,1,14],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(1l)+","(2a)+","(2l)+","(3a)+","(3l)+","(4a)+","(4l)+","(5a)+","(6a)-","(7a)-","Aa (In)","Al (In)","Ba (In)","Bl (Out)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#FF0000'])\nd3.scaleOrdinal(['#FFFF00'])\nd3.scaleOrdinal(['#00FF00'])\nd3.scaleOrdinal(['#00FFFF'])\nd3.scaleOrdinal(['#0000FF'])\nd3.scaleOrdinal(['#FF00FF'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":true,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1da11afd6d32c23d2a0a" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1da11afd6d32c23d2a0a">{"x":{"links":{"source":[11,13,15,0,2,4,0,2,4,6,6,9,10,8,12,1,3,5,7,5],"target":[0,2,4,6,6,6,8,8,8,9,10,8,8,16,1,3,5,7,1,14],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(1l)+","(2a)+","(2l)+","(3a)+","(3l)+","(4a)+","(4l)+","(5a)+","(6a)-","(7a)-","Aa (In)","Al (In)","Ba (In)","Bl (Out)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#FF0000'])\nd3.scaleOrdinal(['#FFFF00'])\nd3.scaleOrdinal(['#00FF00'])\nd3.scaleOrdinal(['#00FFFF'])\nd3.scaleOrdinal(['#0000FF'])\nd3.scaleOrdinal(['#FF00FF'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":true,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="combined-micronetworks" class="section level3" number="2.3.2">
 <h3 number="2.3.2"><span class="header-section-number">2.3.2</span> Combined MicroNetworks</h3>
@@ -464,35 +466,66 @@ targetLOOP &lt;- c(&quot;(1l)+&quot;,
                 &quot;Bl (Out)&quot;)
 
 micronetAndLoop()</code></pre>
-<div id="htmlwidget-26a0e87a77d35380ed66" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-26a0e87a77d35380ed66">{"x":{"links":{"source":[11,13,15,0,2,4,0,2,4,6,6,9,10,8,16,12,1,3,5,7,5],"target":[0,2,4,6,6,6,8,8,8,9,10,8,8,16,12,1,3,5,7,1,14],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(1l)+","(2a)+","(2l)+","(3a)+","(3l)+","(4a)+","(4l)+","(5a)+","(6a)-","(7a)-","Aa (In)","Al (In)","Ba (In)","Bl (Out)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#FF0000'])\nd3.scaleOrdinal(['#FFFF00'])\nd3.scaleOrdinal(['#00FF00'])\nd3.scaleOrdinal(['#00FFFF'])\nd3.scaleOrdinal(['#0000FF'])\nd3.scaleOrdinal(['#FF00FF'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":true,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-24e26da6c7384f849150" style="width:672px;height:480px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24e26da6c7384f849150">{"x":{"links":{"source":[11,13,15,0,2,4,0,2,4,6,6,9,10,8,16,12,1,3,5,7,5],"target":[0,2,4,6,6,6,8,8,8,9,10,8,8,16,12,1,3,5,7,1,14],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":["(1a)+","(1l)+","(2a)+","(2l)+","(3a)+","(3l)+","(4a)+","(4l)+","(5a)+","(6a)-","(7a)-","Aa (In)","Al (In)","Ba (In)","Bl (Out)","Ca (In)","Da (Out)"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#FF0000'])\nd3.scaleOrdinal(['#FFFF00'])\nd3.scaleOrdinal(['#00FF00'])\nd3.scaleOrdinal(['#00FFFF'])\nd3.scaleOrdinal(['#0000FF'])\nd3.scaleOrdinal(['#FF00FF'])","fontSize":14,"fontFamily":"serif","clickTextSize":35,"linkDistance":100,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":true,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 <p>In a case like this, it’s as easy as linking the output neuron Da (Out) to the input neuron Al (In), and assembling the rest of the network using the <code>micronetAndLoop()</code> function we wrote earlier.</p>
 <p>While this neural network appears more complicated, the function reflects exactly what structure we designed for it. In other words, if input neurons Aa (In), Ba (In), and Ca (In) all experience a stimulus, they will result in output neuron Bl (Out) releasing regular pulses due to the positive feedback loop.</p>
 <p>We can link up MicroNetworks in many different configurations to model any variety of neuronal pathway, provided that we have a basic understanding of the structural motifs which represent these computational operators in our target organisms.</p>
 </div>
 </div>
 </div>
-<div id="limitations" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Limitations</h1>
-<div id="modular-simplicity" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Modular Simplicity</h2>
+<div id="pipelining" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Pipelining</h1>
+<div id="linear-micronetwork-pipeline" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Linear MicroNetwork Pipeline</h2>
+<p>The code below is an adaptation of the function <code>constructLinearMicroNetwork()</code> which will construct a MicroNetwork formed from multiple MicroNetworks. The function will essentially link a pair of input and output neurons for two adjacent MicroNetworks by building a connection between the two. To test out the function, run <code>constructLinearMicroNetwork()</code> in the console. The code to run this function can also be found under this line in the .Rmd file.</p>
+<p>The nomenclature system can appear complex, but the system exists to give every neuron a unique identification which reveals how they operate and where they are located in a much larger network. The following function, <code>interpretNeuron(id)</code> exists to automatically decipher these notation systems for ease of understanding the properties of each neuron.</p>
+<p>For instance, the function can decipher the IDs “1(2n)-” and “52(Out3)” as the outputs show below:</p>
+<pre><code>## List of 4
+##  $ Neuron Type            : chr &quot;Interneuron (NOT MicroNetwork)&quot;
+##  $ Activity               : chr &quot;Inhibitory&quot;
+##  $ MicroNetwork Identifier: chr &quot;1&quot;
+##  $ Subpathway Identifier  : chr &quot;2&quot;</code></pre>
+<pre><code>## List of 4
+##  $ Neuron Type            : chr &quot;Output Neuron (sensory)&quot;
+##  $ Activity               : chr &quot;Excitatory&quot;
+##  $ MicroNetwork Identifier: chr &quot;52&quot;
+##  $ Subpathway Identifier  : chr &quot;3&quot;</code></pre>
+<p>This utility function can help to easily identify the properties of particular neurons based on a relatively compact identification system.</p>
+<p>The lists displayed here determine the following properties:</p>
+<ul>
+<li>Neuron Type (Input / Output / Interneuron)</li>
+<li>Neuronal Activity (Excitatory / Inhibitory)</li>
+<li>MicroNetwork Identifier (Which net this neuron is a part of in the sequence of MicroNetworks)</li>
+<li>Subpathway Identifier (Where this neuron is in the particular MicroNetwork)</li>
+</ul>
+<p>Saving all the properties of neurons created (as well as their linkages from the source-target data frame) for future processing may serve a useful feature for further analysis in modeling.</p>
+</div>
+</div>
+<div id="limitations" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Limitations</h1>
+<div id="modular-simplicity" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Modular Simplicity</h2>
 <p>(may not account for brain complexity)</p>
 </div>
-<div id="coloring-limitations" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Coloring Limitations</h2>
-<p>(same color can be confusing, label excitatory / inhibitory / input / output neurons?)</p>
+<div id="coloring-limitations" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Coloring Limitations</h2>
+<p>Use of the <code>simpleNetwork()</code> function allows for flexible creation of force-directed representations of biological neural networks. However, some limitations in the function narrow the scope of how these models can be made easier to understand. While <code>interpretNeuron()</code> can be run on every neuron to determine the activity of each neuron, setting up a color scheme for labeling distinct colors for excitatory, inhibitory, input or output neurons.</p>
+<p>Counteracting this limitation may be achieved by using the <code>forceNetwork()</code> function, which grants more customization options for force-directed networks, including colors, and is a future direction encouraged for this project.</p>
 </div>
-<div id="modular-generalizability" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Modular Generalizability</h2>
-<p>(not compared to microscopy yet)</p>
+<div id="transmission-directionality" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Transmission Directionality</h2>
+<p>Examining the network as simply a force-directed network in isolation, without reference to the list of source and associated target neurons, can make it unintuitive to establish the directionality of the signal (from input neurons to interneurons to output neurons).</p>
+<p>Since connections between a source (presynaptic) neuron and a target (postsynaptic) neuron are assumed to be unidirectional, potentially changing the ambiguous lines represented in typical force-directed networks to unidirectional arrows may clarify the ambiguity.</p>
 </div>
-<div id="transmission-directionality" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> Transmission Directionality</h2>
-<p>(arrow-paths to show neural transmission)</p>
+<div id="modular-generalizability" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> Modular Generalizability</h2>
+<p>Recent advances in the field of <a href="https://www.inscopix.com/miniature-microscope-technology"><em>in vivo</em> calcium imaging</a> have allowed for the opportunity to inspect synapses at the microscale, and by extension, neural circuits. Inspection of circuits and firing patterns for an array of model organisms can inform how to update the structures of previously-established MicroNetworks to anatomically-correct representations.</p>
+<p>Cross-matching the connectivity of these modules across various regions in an organism, accessed through minimicroscopes may allow updated pathways to be generalizable across an entire brain for that organism.</p>
 </div>
 </div>
-<div id="future-directions" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Future Directions</h1>
+<div id="future-directions" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Future Directions</h1>
 <p>One of the primary aims of the PaperBrain / MicroNetwork project is to allow for a simple interface where researchers in Systems or Computational Neuroscience and various other fields can construct these models using language one might ordinarily see while programming. For instance, a programmer could write:</p>
 <p><code>if (A &amp; B &amp; C) {</code> <code>while (I == FALSE) {</code> <code>triggerOutput()</code> <code>}</code> <code>}</code></p>
 <p>PapeRBrain could interpret this code as a combination of an And MicroNetwork (recognizing the <code>&amp;</code> operator) and a Loop MicroNetwork (recognizing the <code>while</code> loop), and construct the neurobiological representation of this code using <code>networkd3</code>.</p>
