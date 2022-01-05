@@ -1,24 +1,3 @@
----
-title: "PapeR Brain"
-author: "Simon Ogundare"
-date: "1/2/2022"
-output:
-  pdf_document:
-    toc: yes
-  html_document:
-    toc: yes
-    toc_float: yes
-    number_sections: yes
-    theme: darkly
-editor_options:
-  markdown:
-    wrap: 72
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Introduction
 
 Hey there! This is an R Markdown document showcasing one particular use of the `networkd3` package. Here, we use the `simpleNetwork()` package to plot Micro-Networks, used to model biological neural networks in terms of computational functions.
